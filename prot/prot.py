@@ -10,4 +10,7 @@ def rna_codon_table(filename):
 
 def translate_rna(rna):
     rct = rna_codon_table("rna_codon_table.txt")
-    return rct
+    codons = [rna[i:i+3] for i in range(0, len(rna), 3)]
+    prots = [rct[c] for c in codons]
+    prot_str = ''.join(prots)
+    return prot_str.split("Stop", 1)[0]
