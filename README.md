@@ -1,4 +1,6 @@
 # Learning bioinformatics
 
-This repo contains solutions for the challenges provided by [Rosalind](http://rosalind.info/problems/list-view/).
-All solutions are coded in Python.
+## Rosalind
+
+[Rosalind](http://rosalind.info/problems/list-view/) provides coding challenges related to common bioinformatics problems.
+The `rosalind` folder contains solutions for these challenges.
