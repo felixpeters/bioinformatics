@@ -15,7 +15,7 @@ def parse_fasta(lines):
     seqs.append(cur_seq)
     return seqs
 
-def delete_introns(dna, introns):
+def splice(dna, introns):
     for intron in introns:
         dna = dna.replace(intron, "")
     return dna
@@ -32,7 +32,7 @@ def translate(rna):
 def dna2prot(lines):
     seqs = parse_fasta(lines)
     dna, introns = seqs[0], seqs[1:]
-    dna = delete_introns(dna["seq"], [i["seq"] for i in introns])
+    dna = splice(dna["seq"], [i["seq"] for i in introns])
     rna = transcribe(dna)
     prot = translate(rna)
     return prot
