@@ -1,3 +1,4 @@
+import sys
 from utils import rna_codon_table as rct
 
 def parse_fasta(lines):
@@ -36,3 +37,7 @@ def dna2prot(lines):
     rna = transcribe(dna)
     prot = translate(rna)
     return prot
+
+if __name__ == "__main__":
+    lines = [line.strip() for line in sys.stdin.readlines()]
+    print(dna2prot(lines))
