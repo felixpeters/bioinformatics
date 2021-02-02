@@ -1,4 +1,5 @@
 import sys
+from collections import Counter
 import numpy as np
 
 def parse_fasta(lines):
@@ -16,20 +17,23 @@ def parse_fasta(lines):
     seqs.append(cur_seq)
     return seqs
 
-def concensus(seqs):
+def consensus(seqs):
     seqs = [seq["seq"] for seq in seqs]
     seq_len = len(seqs[0]) if len(seqs) > 0 else 0
     prof = {n: [0]*len(seqs[0]) for n in "ACGT"}
+    pos_seqs = ["".join([seq[pos] for seq in seqs]) for pos in range(seq_len)]
     for pos in range(seq_len):
-        nucs = "".join([seq[pos] for seq in seqs])
+        nucs = pos_seqs[pos]
         for nuc in "ACGT":
             prof[nuc][pos] = nucs.count(nuc)
-    print(prof)
     # TODO: return most common symbol at each position
-    cons = ""
+    cons = "".join([Counter(seq).most_common(1)[0][0] for seq in pos_seqs])
     return cons, prof 
 
 if __name__ == "__main__":
     lines = [line.strip() for line in sys.stdin.readlines()]
     seqs = parse_fasta(lines)
-    print(concensus(seqs))
+    cons, prof = consensus(seqs)
+    print(cons)
+    for key, val in prof.items():
+        print(f"{key}:", *val)

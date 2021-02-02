@@ -1,12 +1,12 @@
 from pathlib import Path
-from cons import parse_fasta, concensus
+from cons import parse_fasta, consensus
 
-def test_concensus():
+def test_consensus():
     with open(Path(__file__).absolute().parent / "sample_cons.fasta") as f:
         lines = [l.strip() for l in f.readlines()]
     seqs = parse_fasta(lines)
     assert len(seqs) == 7
-    cons, prof = concensus(seqs)
+    cons, prof = consensus(seqs)
     assert prof["A"] == [5, 1, 0, 0, 5, 5, 0, 0]
     assert prof["C"] == [0, 0, 1, 4, 2, 0, 6, 1]
     assert prof["G"] == [1, 1, 6, 3, 0, 1, 0, 0]
