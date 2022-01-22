@@ -1,4 +1,4 @@
-from .dna import count_nucleotides, gc_content, hamming_distance, reverse_complement, transcribe
+from .sequence import count_nucleotides, gc_content, hamming_distance, reverse_complement, transcribe
 import numpy as np
 
 

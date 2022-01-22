@@ -14,9 +14,9 @@ def reverse_complement(dna: str) -> str:
     return dna[::-1].translate(translation_table)
 
 
-def gc_content(dna: str) -> float:
-    return (dna.count("C") + dna.count("G")) / len(dna)
+def gc_content(seq: str) -> float:
+    return (seq.count("C") + seq.count("G")) / len(seq)
 
 
-def hamming_distance(dna1: str, dna2: str) -> int:
-    return sum([i != j for i, j in zip(dna1, dna2)])
+def hamming_distance(seq1: str, seq2: str) -> int:
+    return sum([i != j for i, j in zip(seq1, seq2)])
