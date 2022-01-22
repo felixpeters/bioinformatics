@@ -1,4 +1,5 @@
 from .dna import count_nucleotides, gc_content, reverse_complement, transcribe
+import numpy as np
 
 
 def test_count_nucleotides():
@@ -26,4 +27,4 @@ def test_reverse_complement():
 def test_gc_content():
     dna = "CCACCCTCGTGGTATGGCTAGGCATTCAGGAACCGGAGAACGCTTCAGACCAGCCCGGACTGGGAACCTGCGGGCAGTAGGTGGAAT"
     gcc = gc_content(dna)
-    assert gcc == 0.60919540
+    np.testing.assert_almost_equal(gcc, 0.60919540)

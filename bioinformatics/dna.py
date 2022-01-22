@@ -15,4 +15,4 @@ def reverse_complement(dna: str) -> str:
 
 
 def gc_content(dna: str) -> float:
-    return 0.0
+    return (dna.count("C") + dna.count("G")) / len(dna)
