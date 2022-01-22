@@ -7,3 +7,8 @@ def count_nucleotides(dna: str) -> Dict[str, int]:
 
 def transcribe(dna: str) -> str:
     return dna.replace("T", "U")
+
+
+def reverse_complement(dna: str) -> str:
+    translation_table = dna.maketrans("ACGT", "TGCA")
+    return dna[::-1].translate(translation_table)

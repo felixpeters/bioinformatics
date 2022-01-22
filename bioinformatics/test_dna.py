@@ -1,4 +1,4 @@
-from .dna import count_nucleotides, transcribe
+from .dna import count_nucleotides, reverse_complement, transcribe
 
 
 def test_count_nucleotides():
@@ -15,3 +15,9 @@ def test_transcribe():
     dna = "GATGGAACTTGACTACGTAAATT"
     rna = transcribe(dna)
     assert rna == "GAUGGAACUUGACUACGUAAAUU"
+
+
+def test_reverse_complement():
+    dna = "AAAACCCGGT"
+    revc = reverse_complement(dna)
+    assert revc == "ACCGGGTTTT"
