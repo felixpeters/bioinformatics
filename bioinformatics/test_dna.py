@@ -1,4 +1,4 @@
-from .dna import count_nucleotides, reverse_complement, transcribe
+from .dna import count_nucleotides, gc_content, reverse_complement, transcribe
 
 
 def test_count_nucleotides():
@@ -21,3 +21,9 @@ def test_reverse_complement():
     dna = "AAAACCCGGT"
     revc = reverse_complement(dna)
     assert revc == "ACCGGGTTTT"
+
+
+def test_gc_content():
+    dna = "CCACCCTCGTGGTATGGCTAGGCATTCAGGAACCGGAGAACGCTTCAGACCAGCCCGGACTGGGAACCTGCGGGCAGTAGGTGGAAT"
+    gcc = gc_content(dna)
+    assert gcc == 0.60919540

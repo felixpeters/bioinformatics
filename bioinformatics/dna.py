@@ -12,3 +12,7 @@ def transcribe(dna: str) -> str:
 def reverse_complement(dna: str) -> str:
     translation_table = dna.maketrans("ACGT", "TGCA")
     return dna[::-1].translate(translation_table)
+
+
+def gc_content(dna: str) -> float:
+    return 0.0
