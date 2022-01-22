@@ -1,4 +1,4 @@
-from .dna import count_nucleotides, gc_content, reverse_complement, transcribe
+from .dna import count_nucleotides, gc_content, hamming_distance, reverse_complement, transcribe
 import numpy as np
 
 
@@ -28,3 +28,9 @@ def test_gc_content():
     dna = "CCACCCTCGTGGTATGGCTAGGCATTCAGGAACCGGAGAACGCTTCAGACCAGCCCGGACTGGGAACCTGCGGGCAGTAGGTGGAAT"
     gcc = gc_content(dna)
     np.testing.assert_almost_equal(gcc, 0.60919540)
+
+
+def test_hamming_distance():
+    dna1 = "GAGCCTACTAACGGGAT"
+    dna2 = "CATCGTAATGACGGCCT"
+    assert hamming_distance(dna1, dna2) == 7

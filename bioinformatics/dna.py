@@ -16,3 +16,7 @@ def reverse_complement(dna: str) -> str:
 
 def gc_content(dna: str) -> float:
     return (dna.count("C") + dna.count("G")) / len(dna)
+
+
+def hamming_distance(dna1: str, dna2: str) -> int:
+    return sum([i != j for i, j in zip(dna1, dna2)])
