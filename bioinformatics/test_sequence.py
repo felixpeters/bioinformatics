@@ -1,4 +1,4 @@
-from .sequence import count_nucleotides, gc_content, hamming_distance, reverse_complement, transcribe
+from .sequence import count_nucleotides, gc_content, hamming_distance, reverse_complement, transcribe, translate
 import numpy as np
 
 
@@ -34,3 +34,9 @@ def test_hamming_distance():
     dna1 = "GAGCCTACTAACGGGAT"
     dna2 = "CATCGTAATGACGGCCT"
     assert hamming_distance(dna1, dna2) == 7
+
+
+def test_translate():
+    dna = "AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA"
+    rna = translate(dna)
+    assert rna == "MAMAPRTEINSTRING"
