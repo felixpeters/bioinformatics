@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Sequence
 from .constants import rna_codon_table
 
 
@@ -36,3 +36,20 @@ def translate(rna: str) -> str:
     proteins = [rna_codon_table[c] for c in codons]
     protein_string = ''.join(proteins)
     return protein_string.split("Stop", 1)[0]
+
+
+def find_motif(dna: str, motif: str) -> Sequence[int]:
+    """Find all occurrences of a given motif in a DNA string.
+
+    Args:
+        dna (str): DNA string
+        motif (str): Motif string
+
+    Returns:
+        Sequence[int]: Array of starting points
+    """
+    locs = []
+    for n in range(len(dna) - len(motif) + 1):
+        if dna[n:(n+len(motif))] == motif:
+            locs.append(n)
+    return locs

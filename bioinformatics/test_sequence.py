@@ -1,4 +1,4 @@
-from .sequence import count_nucleotides, gc_content, hamming_distance, reverse_complement, transcribe, translate
+from .sequence import count_nucleotides, gc_content, hamming_distance, reverse_complement, transcribe, translate, find_motif
 import numpy as np
 
 
@@ -40,3 +40,10 @@ def test_translate():
     dna = "AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA"
     rna = translate(dna)
     assert rna == "MAMAPRTEINSTRING"
+
+
+def test_find_motif():
+    dna = "GATATATGCATATACTT"
+    motif = "ATAT"
+    locs = find_motif(dna, motif)
+    assert locs == [1, 3, 9]
