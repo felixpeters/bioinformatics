@@ -1,4 +1,4 @@
-from .sequence import count_nucleotides, gc_content, hamming_distance, reverse_complement, transcribe, translate, find_motif
+from .sequence import count_nucleotides, find_common_ancestor, gc_content, hamming_distance, reverse_complement, transcribe, translate, find_motif
 import numpy as np
 
 
@@ -47,3 +47,25 @@ def test_find_motif():
     motif = "ATAT"
     locs = find_motif(dna, motif)
     assert locs == [1, 3, 9]
+
+
+def test_find_common_ancestor():
+    seqs = {
+        "Rosalind_1": "ATCCAGCT",
+        "Rosalind_2": "GGGCAACT",
+        "Rosalind_3": "ATGGATCT",
+        "Rosalind_4": "AAGCAACC",
+        "Rosalind_5": "TTGGAACT",
+        "Rosalind_6": "ATGCCATT",
+        "Rosalind_7": "ATGGCACT",
+    }
+    result = np.array([
+        [5, 1, 0, 0, 5, 5, 0, 0],
+        [0, 0, 1, 4, 2, 0, 6, 1],
+        [1, 1, 6, 3, 0, 1, 0, 0],
+        [1, 5, 0, 0, 0, 1, 1, 6],
+    ])
+    consensus_string, profile_matrix = find_common_ancestor(seqs)
+    np.testing.assert_array_equal(profile_matrix, result)
+    assert consensus_string == "ATGCAACT"
+    assert profile_matrix.shape == (4, 8)
