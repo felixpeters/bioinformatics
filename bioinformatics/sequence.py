@@ -5,23 +5,64 @@ from .constants import rna_codon_table
 
 
 def count_nucleotides(dna: str) -> Dict[str, int]:
+    """Count nucleotides in given DNA string.
+
+    Args:
+        dna (str): DNA string
+
+    Returns:
+        Dict[str, int]: Count per nucleotide
+    """
     return {n: dna.count(n) for n in "ACGT"}
 
 
 def transcribe(dna: str) -> str:
+    """Transcribe DNA into RNA string.
+
+    Args:
+        dna (str): DNA string
+
+    Returns:
+        str: RNA string
+    """
     return dna.replace("T", "U")
 
 
 def reverse_complement(dna: str) -> str:
+    """Generate reverse complement of given DNA string.
+
+    Args:
+        dna (str): DNA string
+
+    Returns:
+        str: Reverse complement string
+    """
     translation_table = dna.maketrans("ACGT", "TGCA")
     return dna[::-1].translate(translation_table)
 
 
 def gc_content(seq: str) -> float:
+    """Calculate relative GC content of given sequence. 
+
+    Args:
+        seq (str): Sequence string
+
+    Returns:
+        float: Percentage of G and C nucleotides
+    """
     return (seq.count("C") + seq.count("G")) / len(seq)
 
 
 def hamming_distance(seq1: str, seq2: str) -> int:
+    """Calculate Hamming distance of given sequences.
+
+    Args:
+        seq1 (str): First sequence
+        seq2 (str): Second sequence
+
+    Returns:
+        int: Number of differing nucleotides
+    """
     return sum([i != j for i, j in zip(seq1, seq2)])
 
 
@@ -66,17 +107,18 @@ def find_common_ancestor(seqs: Dict[str, str]) -> Tuple[str, np.ndarray]:
     Returns:
         Tuple[str, np.ndarray]: Consensus string and profile matrix with dimensionality 4x(sequence length)
     """
-    seqs = [val for key, val in seqs.items()]
+    seqs = [val for _, val in seqs.items()]
     seq_len = len(seqs[0]) if len(seqs) > 0 else 0
-    profile_matrix_dict = {n: [0]*len(seqs[0]) for n in "ACGT"}
+    profile_matrix_dict = {nuc: [0]*len(seqs[0]) for nuc in "ACGT"}
+    # take transpose of sequences to enable counting
     nucs_per_pos = ["".join([seq[pos] for seq in seqs])
                     for pos in range(seq_len)]
     for pos in range(seq_len):
-        for nucleotide in "ACGT":
-            profile_matrix_dict[nucleotide][pos] = nucs_per_pos[pos].count(
-                nucleotide)
+        for nuc in "ACGT":
+            profile_matrix_dict[nuc][pos] = nucs_per_pos[pos].count(
+                nuc)
     consensus_string = "".join([Counter(seq).most_common(1)[0][0]
                                 for seq in nucs_per_pos])
-    profile_matrix_arr = np.array([profile_matrix_dict[nucleotide]
-                                   for nucleotide in "ACGT"])
+    profile_matrix_arr = np.array([profile_matrix_dict[nuc]
+                                   for nuc in "ACGT"])
     return consensus_string, profile_matrix_arr
