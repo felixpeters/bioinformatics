@@ -68,15 +68,15 @@ def find_common_ancestor(seqs: Dict[str, str]) -> Tuple[str, np.ndarray]:
     """
     seqs = [val for key, val in seqs.items()]
     seq_len = len(seqs[0]) if len(seqs) > 0 else 0
-    profile_dict = {n: [0]*len(seqs[0]) for n in "ACGT"}
-    seqs_per_pos = ["".join([seq[pos] for seq in seqs])
+    profile_matrix_dict = {n: [0]*len(seqs[0]) for n in "ACGT"}
+    nucs_per_pos = ["".join([seq[pos] for seq in seqs])
                     for pos in range(seq_len)]
     for pos in range(seq_len):
-        nucleotides = seqs_per_pos[pos]
         for nucleotide in "ACGT":
-            profile_dict[nucleotide][pos] = nucleotides.count(nucleotide)
+            profile_matrix_dict[nucleotide][pos] = nucs_per_pos[pos].count(
+                nucleotide)
     consensus_string = "".join([Counter(seq).most_common(1)[0][0]
-                                for seq in seqs_per_pos])
-    profile_matrix = np.array([profile_dict[nucleotide]
-                              for nucleotide in "ACGT"])
-    return consensus_string, profile_matrix
+                                for seq in nucs_per_pos])
+    profile_matrix_arr = np.array([profile_matrix_dict[nucleotide]
+                                   for nucleotide in "ACGT"])
+    return consensus_string, profile_matrix_arr
