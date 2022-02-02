@@ -1,4 +1,4 @@
-from .sequence import count_nucleotides, find_common_ancestor, gc_content, hamming_distance, reverse_complement, transcribe, translate, find_motif
+from .sequence import count_nucleotides, find_common_ancestor, gc_content, hamming_distance, longest_common_substrings, reverse_complement, transcribe, translate, find_motif
 import numpy as np
 
 
@@ -69,3 +69,14 @@ def test_find_common_ancestor():
     np.testing.assert_array_equal(profile_matrix, result)
     assert consensus_string == "ATGCAACT"
     assert profile_matrix.shape == (4, 8)
+
+
+def test_longest_common_substrings():
+    seqs = {
+        "Rosalind_1": "GATTACA",
+        "Rosalind_2": "TAGACCA",
+        "Rosalind_3": "ATACA",
+    }
+    result = longest_common_substrings(seqs)
+    assert len(result) == 3
+    assert "AC" in result

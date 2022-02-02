@@ -125,3 +125,35 @@ def find_common_ancestor(seqs: Dict[str, str]) -> Tuple[str, np.ndarray]:
     profile_matrix_arr = np.array([profile_matrix_dict[nuc]
                                    for nuc in "ACGT"])
     return consensus_string, profile_matrix_arr
+
+
+def longest_common_substrings(seqs: Dict[str, str]) -> Sequence[str]:
+    """Finds the longest common substrings in a collection of sequences.
+
+    Args:
+        seqs (Dict[str, str]): Dictionary with sequences in (identifier, sequence) format.
+
+    Returns:
+        Sequence[str]: Longest common substrings with same length
+    """
+    results = []
+    # find shortest string as base sequences
+    seqs = [val for _, val in seqs.items()]
+    seqs.sort(key=len)
+    base_seq, comp_seqs = seqs[0], seqs[1:]
+    # iterate through string lengths, starting with length of shortest string
+    for seq_len in range(len(base_seq), 0, -1):
+        # initialize cache for previous searches
+        previous_searches = []
+        # iterate through all possible substrings of current length
+        for pos in range(0, len(base_seq) - seq_len + 1):
+            substr = base_seq[pos:(pos+seq_len)]
+            if substr not in previous_searches:
+                # add substring to results if contained in all sequences
+                if all((substr in seq for seq in comp_seqs)):
+                    results.append(substr)
+                # cache current search in order to avoid duplicates
+                previous_searches.append(substr)
+        if len(results) > 0:
+            break
+    return results
