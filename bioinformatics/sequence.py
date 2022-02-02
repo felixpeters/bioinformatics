@@ -1,3 +1,5 @@
+"""Functionality related to working with sequences, e.g., DNA and RNA strings."""
+
 from typing import Dict, Sequence, Tuple
 from collections import Counter
 import numpy as np
@@ -42,7 +44,7 @@ def reverse_complement(dna: str) -> str:
 
 
 def gc_content(seq: str) -> float:
-    """Calculate relative GC content of given sequence. 
+    """Calculate relative GC content of given sequence.
 
     Args:
         seq (str): Sequence string
@@ -92,9 +94,9 @@ def find_motif(dna: str, motif: str) -> Sequence[int]:
         Sequence[int]: Array of starting points
     """
     locs = []
-    for n in range(len(dna) - len(motif) + 1):
-        if dna[n:(n+len(motif))] == motif:
-            locs.append(n)
+    for pos in range(len(dna) - len(motif) + 1):
+        if dna[pos:(pos+len(motif))] == motif:
+            locs.append(pos)
     return locs
 
 
@@ -102,10 +104,11 @@ def find_common_ancestor(seqs: Dict[str, str]) -> Tuple[str, np.ndarray]:
     """Finds the most likely common ancestor of the given sequences.
 
     Args:
-        seqs (Dict[str, str]): Dictionary with identifiers as keys and sequences as values (e.g., loaded from FASTA file). Equal length is assumed.
+        seqs (Dict[str, str]): Dictionary with (identifier, sequence), e.g., from FASTA file.
+                                Equal length is assumed.
 
     Returns:
-        Tuple[str, np.ndarray]: Consensus string and profile matrix with dimensionality 4x(sequence length)
+        Tuple[str, np.ndarray]: Consensus string and profile matrix (dim 4x(sequence length))
     """
     seqs = [val for _, val in seqs.items()]
     seq_len = len(seqs[0]) if len(seqs) > 0 else 0

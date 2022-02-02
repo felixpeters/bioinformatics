@@ -1,11 +1,21 @@
+"""Functionality related to reading and writing files."""
+
 from pathlib import Path
 from typing import Dict
 
 
 def parse_fasta(filename: Path) -> Dict[str, str]:
-    with open(filename) as f:
-        lines = f.readlines()
-    lines = [l.strip() for l in lines]
+    """Reads sequences from file in FASTA format.
+
+    Args:
+        filename (Path): Path to file
+
+    Returns:
+        Dict[str, str]: Dictionary of sequences (uses identifier from file)
+    """
+    with open(filename) as file:
+        lines = file.readlines()
+    lines = [line.strip() for line in lines]
     dna_dict = {}
     current_key = ""
     for line in lines:

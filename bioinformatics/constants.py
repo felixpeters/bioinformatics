@@ -1,3 +1,5 @@
+"""Exports constants such as the RNA codon table."""
+
 rna_codon_table = {
     "UUU": "F",
     "CUU": "L",
