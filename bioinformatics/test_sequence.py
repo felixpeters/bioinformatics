@@ -1,4 +1,4 @@
-from .sequence import count_nucleotides, find_common_ancestor, gc_content, hamming_distance, longest_common_substrings, reverse_complement, transcribe, translate, find_motif
+from .sequence import count_nucleotides, find_candidate_proteins, find_common_ancestor, gc_content, hamming_distance, longest_common_substrings, reverse_complement, transcribe, translate, find_motif
 import numpy as np
 
 
@@ -40,6 +40,9 @@ def test_translate():
     dna = "AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA"
     rna = translate(dna)
     assert rna == "MAMAPRTEINSTRING"
+    dna = "AUGGAGAGAGAGAGAGAGAGAGAGA"
+    rna = translate(dna)
+    assert rna == ""
 
 
 def test_find_motif():
@@ -80,3 +83,17 @@ def test_longest_common_substrings():
     result = longest_common_substrings(seqs)
     assert len(result) == 3
     assert "AC" in result
+
+
+def test_find_candidate_proteins():
+    dna = "AGCCATGTAGCTAACTCAGGTTACATGGGGATGACCCCGCGACTTGGATTAGAGTCTCTTTTGGAATAAGCCTGAATGATCCGAGTAGCATCTCAG"
+    desired_proteins = [
+        "MLLGSFRLIPKETLIQVAGSSPCNLS",
+        "M",
+        "MGMTPRLGLESLLE",
+        "MTPRLGLESLLE",
+    ]
+    actual_proteins = find_candidate_proteins(dna)
+    assert len(actual_proteins) == len(desired_proteins)
+    for protein in desired_proteins:
+        assert protein in actual_proteins

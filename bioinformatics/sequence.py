@@ -1,6 +1,7 @@
 """Functionality related to working with sequences, e.g., DNA and RNA strings."""
 
 from typing import Dict, Sequence, Tuple
+import re
 from collections import Counter
 import numpy as np
 from .constants import rna_codon_table
@@ -75,11 +76,13 @@ def translate(rna: str) -> str:
         rna (str): RNA sequence
 
     Returns:
-        str: protein string
+        str: protein string (empty string if no stop codon is present)
     """
-    codons = [rna[i:i+3] for i in range(0, len(rna), 3)]
+    codons = [rna[i:i+3] for i in range(0, len(rna)//3 * 3, 3)]
     proteins = [rna_codon_table[c] for c in codons]
     protein_string = ''.join(proteins)
+    if "Stop" not in protein_string:
+        return ""
     return protein_string.split("Stop", 1)[0]
 
 
@@ -157,3 +160,38 @@ def longest_common_substrings(seqs: Dict[str, str]) -> Sequence[str]:
         if len(results) > 0:
             break
     return results
+
+
+def find_open_reading_frames(dna: str) -> Sequence[str]:
+    """Finds all possible reading frames for a given sequence.
+        Checks only for start codon, not for stop codon.
+
+    Args:
+        dna (str): DNA string
+
+    Returns:
+        Sequence[str]: Array of possible reading frames
+    """
+    return [dna[m.start():] for m in re.finditer("ATG", dna)]
+
+
+def find_candidate_proteins(dna: str) -> Sequence[str]:
+    """Finds every distinct candidate protein string from the given sequence.
+        Searches all open reading frames of the given sequence and its reverse complement.
+
+
+    Args:
+        dna (str): DNA string
+
+    Returns:
+        Sequence[str]: Array of protein candidates
+    """
+    proteins = set()
+    strands = [dna, reverse_complement(dna)]
+    for strand in strands:
+        orfs = find_open_reading_frames(strand)
+        for orf in orfs:
+            protein = translate(transcribe(orf))
+            if len(protein) > 0:
+                proteins.add(protein)
+    return list(proteins)
