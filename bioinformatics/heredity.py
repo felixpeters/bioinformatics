@@ -23,3 +23,29 @@ def dominant_allele_probability(n_homo_dom: int, n_hetero: int, n_homo_rec: int)
     # case 5: one heterozygous, one homozygous recessive
     prob += (n_hetero/total) * (n_homo_rec/(total-1))
     return prob
+
+
+def mortal_fibonacci(periods: int, lifespan: int) -> int:
+    """Calculates the number of pairs after given number of periods. 
+        Pairs live for the given lifespan and produce one offspring per period.
+
+    Args:
+        periods (int): Experiment duration
+        lifespan (int): Lifetime of one pair
+
+    Returns:
+        int: Number of pairs after given number of periods
+    """
+    pairs = [1, 1]
+    period = 2
+    # decrease periods by one to enable array indexing
+    periods -= 1
+    while period <= periods:
+        if period < lifespan:
+            pairs.append(pairs[-2] + pairs[-1])
+        elif period == lifespan or period == (lifespan + 1):
+            pairs.append(pairs[-2] + pairs[-1] - 1)
+        else:
+            pairs.append(pairs[-2] + pairs[-1] - pairs[-(lifespan + 1)])
+        period += 1
+    return pairs[-1]
